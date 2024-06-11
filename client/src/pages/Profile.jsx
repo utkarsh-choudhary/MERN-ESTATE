@@ -4,6 +4,7 @@ import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/st
 import { app } from "../firebase";
 import {updateUserStart, updateUserSucess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserSuccess, signOutUserFailure} from '../redux/user/userSlice';
 import {useDispatch} from 'react-redux';
+import {Link } from "react-router-dom";
 
 export default function Profile() {
   const fileRef=useRef(null);
@@ -51,7 +52,7 @@ export default function Profile() {
   }
 
   const handleChange=(e)=>{
-    setFormData({...formData,[e.target.id]:e.target.value})
+    setFormData({...formData,[e.target.id]: e.target.value})
   }
 
   const handleSubmit= async (e)=>{
@@ -88,15 +89,19 @@ export default function Profile() {
         method:'DELETE',
       });
       const data=await res.json();
+      console.log(data)
       if(data.success===false){
         dispatch(deleteUserFailure(data.message));
         return;
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
+      console.log(error)
       dispatch(deleteUserFailure(error.message));
     }
   }
+  
+  
 
   const handleSignOut = async()=>{
     try {
@@ -132,6 +137,9 @@ export default function Profile() {
         <input type="email" placeholder="email" className="border p-3 rounded-lg" id="email" defaultValue={currentUser.email} onChange={handleChange}/>
         <input type="password" placeholder="password" className="border p-3 rounded-lg" id="password" onChange={handleChange}/>
         <button className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80" disabled={loading}>{loading?'Loading...':'Update'}</button>
+        <Link className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95" to={"/create-listing"}>
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
