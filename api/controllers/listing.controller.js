@@ -104,8 +104,7 @@ export const getListings = async (req, res, next) => {
         offer,
         furnished,
         parking,
-        type,
-      })
+        type,})
         .sort({ [sort]: order })
         .limit(limit)
         .skip(startIndex);
