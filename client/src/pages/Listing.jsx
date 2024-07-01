@@ -29,10 +29,12 @@ export default function Listing() {
                 setLoading(false);
                 return;
             }
+            
             setListing(data);
             setLoading(false);
             setError(false);
             } catch (error) {
+              console.log("there is an error",error)
                 setError(true);
                 setLoading(false);
             }
